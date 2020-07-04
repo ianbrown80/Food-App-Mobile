@@ -99,3 +99,19 @@ h1 {
     animation:fade 3000ms infinite;
     -webkit-animation:fade 3000ms infinite;
 }
+
+#register-form {
+    display: none;
+}
+
+.login-form__error, .settings-form__error {
+    display: none;
+}
+
+.delete-account--option {
+    display: none;
+}
+
+#settings-current-password-wrapper {
+    display: none;
+}

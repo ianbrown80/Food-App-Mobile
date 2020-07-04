@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+        <meta http-equiv="Content-Security-Policy" content="default-src * data:; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+        <script type="text/javascript" src="cordova.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/index.css">
+        <script type="text/javascript" src="js/jquery-3.5.1.min.js" id="cordova-jquery"></script>
+        <script type="text/javascript" id="jqm-trans-disable">
+            $(document).on("mobileinit", function() {
+                            $.mobile.defaultPageTransition = "none";
+                            $.mobile.defaultDialogTransition = "none";
+            });
+        </script>
+        <script type="text/javascript" src="js/index.js"></script>
+
+        <title>Settings</title>
+    </head>
+
+    <body>
+        <div class="app">
+            <form id="settings-form" class="settings-form">
+
+                <h1>Settings</h1>
+
+                <label for="settings-name">Name</label>
+                <input id="settings-name" type="text" name="settings-name" />
+                <p class="settings-form__error settings-form__error--name"></p>
+
+                <hr>
+
+                <label for="settings-email">Email</label>
+                <input id="settings-email" type="email" name="settings-email" />
+                <p class="settings-form__error settings-form__error--email"></p>
+
+                <hr>
+
+                <label for="settings-password">Password</label>
+                <input id="settings-password" type="password" name="settings-password" />
+                <p class="settings-form__error settings-form__error--password"></p>
+
+                <hr>
+
+                <div id="settings-buttons-wrapper">
+
+                    <button id="settings-save" type="button">Save</button>
+                    <button id="delete-account" type="button">Remove Account</button>
+                    <button id="delete-confirm" class="delete-account--option" type="button">Delete</button>
+                    <button id="delete-reject" class="delete-account--option" type="button">Cancel</button>
+                    <button id="logout" type="button">Logout</button>
+                    <p class="settings-form__error settings-form__error--form"></p>
+
+                    <hr>
+
+                </div>
+
+                <div id="settings-current-password-wrapper">
+                    <label for="settings-current-password">Enter your current password</label>
+                    <input id="settings-current-password" type="password" name="settings-current-password" />
+                    <p class="settings-form__error settings-form__error--current-password"></p>
+                    <button id="settings-submit" type="submit">Save</button>
+                </div>
+
+            </form>
+        </div>
+    
+    </body>
+</html>
