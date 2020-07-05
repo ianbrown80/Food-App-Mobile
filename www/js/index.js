@@ -18,96 +18,11 @@ var foodApp = {
 
             if ( window.location.pathname == '/settings.html' ) {
 
-                $( '#settings-name' ).val( localStorage.getItem( 'name' ) );
-                $( '#settings-email' ).val( localStorage.getItem( 'email' ) );
-                
-                $( '.settings-form__error--form' ).html( '' ).hide();
-            
-                $( '#logout' ).on( 'click', function( event ) {
-                    event.preventDefault();
-                    foodApp.logOut();
-                });
+                foodApp.settingsPage();
 
-                $( '#delete-account' ).on( 'click', function( event ) {
-                    event.preventDefault();
-                    $( this ).hide();
-                    $( '#delete-confirm' ).show();
-                    $( '#delete-reject' ).show();
-                    $( '.settings-form__error--form').html( 'Are you sure?' ).show();
+            } else if ( window.location.pathname == '/diary.html' ) {
 
-                    $( '#delete-reject' ).on( 'click', function( event ) {
-                        event.preventDefault();
-                        $( this ).hide();
-                        $( '#delete-confirm' ).hide();
-                        $( '#delete-account' ).show();
-                        $( '.settings-form__error--form').html( '' ).hide();
-                    });
-
-                    $( '#delete-confirm' ).on( 'click', function( event ) {
-                        event.preventDefault();
-                        foodApp.deleteUser();
-                    });
-
-                });
-
-                $( '#settings-save' ).on( 'click', function( event ) {
-                    event.preventDefault();
-
-                    $( '#settings-buttons-wrapper' ).hide();
-                    $( '#settings-current-password-wrapper' ).show();
-
-                });
-
-                $( '#settings-form' ).on( 'submit', function( event ) {
-
-                    event.preventDefault();
-
-                    foodApp.checkToken();
-
-                    $( '.settings-form__error' ).html( '' ).hide();
-
-                    var name = $( '#settings-name' ).val();
-                    var email = $( '#settings-email' ).val();
-                    var newPassword = $( '#settings-password' ).val();
-                    var currentPassword = $( '#settings-current-password' ).val();
-                    var valid = true;
-
-                    var data = {
-                        userId: localStorage.getItem( 'userId' ),
-                    }
-
-                    if ( ! currentPassword ) {
-                        valid = false;
-                        $( '.settings-form__error--current-password' ).html( 'Please enter your password' ).show();
-                    } else {
-                        data.password = currentPassword;
-                    }
-
-                    if ( name ) {
-                        data.name = name;
-                    } else {
-                        data.name = localStorage.getItem( 'name' );
-                    }
-
-                    if ( email ) {
-                        data.email = email;
-                    } else {
-                        data.email = localStorage.getItem( 'email' );
-                    }
-
-                    if ( newPassword ) {
-                        data.salt = newPassword;
-                    }
-
-                    if ( valid ) {
-            
-                        foodApp.sendAjax( 'users', 'PUT', foodApp.updateUser, data );
-                        localStorage.setItem( 'name', name );
-                        localStorage.setItem( 'email', email );
-                    }
-
-
-                });
+                foodApp.diaryPage();
 
             }
         } else {
@@ -279,7 +194,7 @@ var foodApp = {
         localStorage.setItem( 'name', user.name );
         localStorage.setItem( 'email', user.email );
 
-        window.location.href = window.location.origin + '/settings.html';
+        window.location.href = window.location.origin + '/diary.html';
 
     },
 
@@ -354,9 +269,106 @@ var foodApp = {
         $( '#settings-current-password-wrapper' ).hide();
     },
 
+    settingsPage: function() {
+
+        $( '#settings-name' ).val( localStorage.getItem( 'name' ) );
+        $( '#settings-email' ).val( localStorage.getItem( 'email' ) );
+        
+        $( '.settings-form__error--form' ).html( '' ).hide();
+    
+        $( '#logout' ).on( 'click', function( event ) {
+            event.preventDefault();
+            foodApp.logOut();
+        });
+
+        $( '#delete-account' ).on( 'click', function( event ) {
+            event.preventDefault();
+            $( this ).hide();
+            $( '#delete-confirm' ).show();
+            $( '#delete-reject' ).show();
+            $( '.settings-form__error--form').html( 'Are you sure?' ).show();
+
+            $( '#delete-reject' ).on( 'click', function( event ) {
+                event.preventDefault();
+                $( this ).hide();
+                $( '#delete-confirm' ).hide();
+                $( '#delete-account' ).show();
+                $( '.settings-form__error--form').html( '' ).hide();
+            });
+
+            $( '#delete-confirm' ).on( 'click', function( event ) {
+                event.preventDefault();
+                foodApp.deleteUser();
+            });
+
+        });
+
+        $( '#settings-save' ).on( 'click', function( event ) {
+            event.preventDefault();
+
+            $( '#settings-buttons-wrapper' ).hide();
+            $( '#settings-current-password-wrapper' ).show();
+
+        });
+
+        $( '#settings-form' ).on( 'submit', function( event ) {
+
+            event.preventDefault();
+
+            foodApp.checkToken();
+
+            $( '.settings-form__error' ).html( '' ).hide();
+
+            var name = $( '#settings-name' ).val();
+            var email = $( '#settings-email' ).val();
+            var newPassword = $( '#settings-password' ).val();
+            var currentPassword = $( '#settings-current-password' ).val();
+            var valid = true;
+
+            var data = {
+                userId: localStorage.getItem( 'userId' ),
+            }
+
+            if ( ! currentPassword ) {
+                valid = false;
+                $( '.settings-form__error--current-password' ).html( 'Please enter your password' ).show();
+            } else {
+                data.password = currentPassword;
+            }
+
+            if ( name ) {
+                data.name = name;
+            } else {
+                data.name = localStorage.getItem( 'name' );
+            }
+
+            if ( email ) {
+                data.email = email;
+            } else {
+                data.email = localStorage.getItem( 'email' );
+            }
+
+            if ( newPassword ) {
+                data.salt = newPassword;
+            }
+
+            if ( valid ) {
+    
+                foodApp.sendAjax( 'users', 'PUT', foodApp.updateUser, data );
+                localStorage.setItem( 'name', name );
+                localStorage.setItem( 'email', email );
+            }
 
 
-    sendAjax: function( path, method, ajaxCallback, data = null ) {
+        });
+
+    },
+
+    diaryPage: function() {
+        console.log("Here");
+    },
+
+    sendAjax: function( path, method, ajaxCallback ) {
 
         var ajaxSettings = {
             url: 'http://localhost:8080/foodApp/webresources/' + path + '/',
