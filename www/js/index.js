@@ -365,10 +365,43 @@ var foodApp = {
     },
 
     diaryPage: function() {
-        console.log("Here");
+
+        var date = null;
+        var primary = new Date()
+        var before = new Date();
+        var after = new Date();
+        var months = ['Jan', 'Feb', 'March', 'April', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+
+        if ( window.location.search != '' ) {
+            var queryString = window.location.search.substr( 1 );
+            var querys = queryString.split( '&' );
+
+            querys.forEach( query => {
+                var queryParts = query.split( '=' );
+
+                if ( queryParts[0] == 'diary_date' ) {
+                    var dateParts = queryParts[1].split( '-' );
+                    primary.setFullYear( dateParts[2], dateParts[1], dateParts[0] );
+                }
+            });
+
+        }
+
+        before.setDate( primary.getDate() - 1);
+        after.setDate( primary.getDate() + 1);
+        
+        $( '.diary-header__date' ).html( primary.getDate() + ' ' + months[primary.getMonth()] );
+        $( '.diary-day' ).data( 'date', primary.getDate() + '-' + primary.getMonth() + '-' + primary.getFullYear() );
+        $( '.diary-button--before' ).html( before.getDate() + ' ' + months[before.getMonth()] ).data( 'date', before.getDate() + '-' + before.getMonth() + '-' + before.getFullYear() );
+        $( '.diary-button--after' ).html( after.getDate() + ' ' + months[after.getMonth()] ).data( 'date', after.getDate() + '-' + after.getMonth() + '-' + after.getFullYear() );
+
+        $( '.diary-button' ).on( 'click', function( event ) {
+            event.preventDefault();
+            window.location.href = window.location.origin + '/diary.html?diary_date=' + $( this ).data( 'date' );
+        });
     },
 
-    sendAjax: function( path, method, ajaxCallback ) {
+    sendAjax: function( path, method, ajaxCallback, data = null ) {
 
         var ajaxSettings = {
             url: 'http://localhost:8080/foodApp/webresources/' + path + '/',

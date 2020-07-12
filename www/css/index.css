@@ -115,3 +115,29 @@ h1 {
 #settings-current-password-wrapper {
     display: none;
 }
+
+
+.diary-button {
+    width: 24%;
+}
+
+.diary-header__date {
+    display: inline-block;
+    width: 49%;
+}
+
+.diary-day__hour {
+    min-height : 50px;
+    margin-top: 5px;
+}
+
+.diary-day__hour--symptom, .diary-day__hour--food {
+    min-height: 50px;
+    width: 48%;
+    display: inline-block;
+    border: 1px solid;
+}
+
+.diary-day__hour--symptom {
+    margin-right: 1%;
+}
